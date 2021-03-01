@@ -7,7 +7,6 @@ type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 #[async_std::main]
 async fn main() -> Result<()> {
-
     // struct OwnedIdentity {
     //     id: String,
     //     pk: ed25519::PublicKey,
@@ -21,7 +20,9 @@ async fn main() -> Result<()> {
     println!("{:#?}", identity);
 
     // load an identity from file (Patchwork interoperability)
-    let patchwork_identity = keystore::from_patchwork_local().await.expect("read local secret");
+    let patchwork_identity = keystore::from_patchwork_local()
+        .await
+        .expect("read local secret");
 
     // print the patchwork identity from file
     println!("{:#?}", patchwork_identity);
@@ -30,7 +31,9 @@ async fn main() -> Result<()> {
     let mut file = File::create("patchwork_id").await?;
 
     // write patchwork identity to file
-    keystore::write_patchwork_config(&identity, &mut file).await.expect("write patchwork secret");
+    keystore::write_patchwork_config(&identity, &mut file)
+        .await
+        .expect("write patchwork secret");
 
     // {
     //   "id": "@z+GWOeqa8SKcAwdVe79UFI0ayoTGs+ZsAM+NwuTve4A=.ed25519",
